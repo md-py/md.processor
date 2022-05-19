@@ -1,0 +1,53 @@
+@startuml
+
+skinparam class {
+  BackgroundColor #ebebeb
+  ArrowColor      #333
+  BorderColor     #333
+}
+
+skinparam lineType ortho
+
+package md.processor.threading {
+  class md.processor.threading.Provider implements md.processor.ProviderInterface {
+    - provider: md.processor.ProviderInterface
+    + provide() -> md.processor.TaskInterface
+  }
+
+  md.processor.threading.Provider *--> md.processor.ProviderInterface
+}
+
+package md.processor.throttle {
+  class md.processor.throttle.Provider implements md.processor.ProviderInterface {
+    - provider: md.processor.ProviderInterface
+    - rate: float
+    + set_rate(rate: float) -> None
+  }
+
+  md.processor.throttle.Provider *-> md.processor.ProviderInterface
+}
+
+package md.processor {
+  interface md.processor.TaskInterface {}
+  interface md.processor.ProviderInterface {
+    + provide() -> md.processor.TaskInterface
+  }
+
+  interface md.processor.ProcessorInterface {
+    + provide(task: md.processor.TaskInterface) -> None
+  }
+
+  md.processor.ProviderInterface -down- md.processor.TaskInterface : "provides >"
+  md.processor.ProcessorInterface -up- md.processor.TaskInterface : "processes >"
+
+  class md.processor.Worker {
+    - provider: md.processor.ProviderInterface
+    - processor: md.processor.ProcessorInterface
+    + run() -> None
+  }
+
+  md.processor.Worker *--> md.processor.ProviderInterface
+  md.processor.Worker *-> md.processor.ProcessorInterface
+}
+
+@enduml
