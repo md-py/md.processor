@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add retry logic
 
+## [1.1.0] — 2026-01-02 
+### Added
+
+- [x] feature: add generic typing for contracts and base implementation 
+- [x] feature: add CI/CD github workflow configuration 
 
 ## [1.0.0] - 2022-05-19
 
 - Implementation initialization
 
+[1.1.0]: https://github.com/md-py/md.processor/compare/1.0.0..1.1.0
 [1.0.0]: https://github.com/md-py/md.processor/releases/tag/1.0.0

@@ -6,7 +6,7 @@ with open('readme.md') as fh:
 
 setuptools.setup(
     name='md.processor',
-    version='1.0.0',
+    version='1.1.0',
     description='Common task processing contracts',
     long_description=long_description,
     long_description_content_type='text/markdown',

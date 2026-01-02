@@ -3,7 +3,7 @@ import typing
 
 # Metadata
 __author__ = 'https://md.land/md'
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 __all__ = (
     # Metadata
     '__author__',
@@ -20,6 +20,8 @@ __all__ = (
     'Worker',
 )
 
+
+T = typing.TypeVar('T', bound='TaskInterface')
 
 # Exception
 class ProcessorException(RuntimeError):
@@ -43,21 +45,21 @@ class TaskInterface:
     pass
 
 
-class ProviderInterface:
+class ProviderInterface(typing.Generic[T]):
     """ Provides task to process """
-    def provide(self) -> typing.Iterator[TaskInterface]:
+    def provide(self) -> typing.Iterator[T]:
         raise NotImplementedError
 
 
-class ProcessorInterface:
+class ProcessorInterface(typing.Generic[T]):
     """ Processes task """
-    def process(self, task: TaskInterface) -> None:
+    def process(self, task: T) -> None:
         raise NotImplementedError
 
 
 # Implementation
-class Worker:  # nt: unit
-    def __init__(self, provider: ProviderInterface, processor: ProcessorInterface) -> None:
+class Worker(typing.Generic[T]):  # nt: unit
+    def __init__(self, provider: ProviderInterface[T], processor: ProcessorInterface[T]) -> None:
         self._provider = provider
         self._processor = processor
 
