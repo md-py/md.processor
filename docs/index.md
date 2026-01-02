@@ -105,17 +105,25 @@ if __name__ == '__main__':
 ```
 
 ```python3
-if __name__ == '__main__':            
+if __name__ == '__main__':
     # Use case #3: as same as #2 using `worker` concept 
     worker = md.processor.Worker(
         provider=convert_image_task_provider,
         processor=convert_image_processor,
     )
-    
+
     try:
         worker.run()
     except ConvertException as e:
         exit(1)
 ```
+
+## Thread safe provider
+
+Python does not provide thread safe access to generators by default, 
+in case when task provider is assumed to be shared and used in few threads,
+consider to wrap provider with thread safe provider from 
+[md.processor.threading](../md.processor.threading/) component to prevent 
+race-condition issue.
 
 [architecture-overview]: _static/architecture.class-diagram.svg

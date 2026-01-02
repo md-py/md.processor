@@ -21,6 +21,8 @@ __all__ = (
 )
 
 
+T = typing.TypeVar('T', bound='TaskInterface')
+
 # Exception
 class ProcessorException(RuntimeError):
     """ Component marker exception """
@@ -43,21 +45,21 @@ class TaskInterface:
     pass
 
 
-class ProviderInterface:
+class ProviderInterface(typing.Generic[T]):
     """ Provides task to process """
-    def provide(self) -> typing.Iterator[TaskInterface]:
+    def provide(self) -> typing.Iterator[T]:
         raise NotImplementedError
 
 
-class ProcessorInterface:
+class ProcessorInterface(typing.Generic[T]):
     """ Processes task """
-    def process(self, task: TaskInterface) -> None:
+    def process(self, task: T) -> None:
         raise NotImplementedError
 
 
 # Implementation
-class Worker:  # nt: unit
-    def __init__(self, provider: ProviderInterface, processor: ProcessorInterface) -> None:
+class Worker(typing.Generic[T]):  # nt: unit
+    def __init__(self, provider: ProviderInterface[T], processor: ProcessorInterface[T]) -> None:
         self._provider = provider
         self._processor = processor
 
